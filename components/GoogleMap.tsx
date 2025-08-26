@@ -113,6 +113,6 @@ export default function GoogleMap({ className, center, zoom, markerTitle }: Goog
 // Add Google Maps types to global scope
 declare global {
   interface Window {
-    google: typeof google
+    google: any
   }
 }
