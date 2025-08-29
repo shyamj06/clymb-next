@@ -39,7 +39,7 @@ async function fetchCases(): Promise<CaseItem[]> {
   `
 
   const res = await fetch(
-    "https://graphql.prepr.io/ac_fd43e44bc05504b9fe054ad6e7bc115a4272d8df4bffe8f274aee085686b4b31",
+    "https://graphql.prepr.io/ac_00ecc388693bf1996a98371fd9c42b35e6103b39be7cf844406872b6c05f1743",
     {
       method: "POST",
       headers: {
@@ -152,6 +152,25 @@ export default function CasesSection() {
                     </div>
 
                     <button
+                      onClick={() => {
+                        const message = `Request for ${caseItem.title}`;
+                        const encodedMessage = encodeURIComponent(message);
+                        // Smooth scroll to contact section with pre-filled message
+                        const contactSection = document.getElementById('contact');
+                        if (contactSection) {
+                          contactSection.scrollIntoView({ behavior: 'smooth' });
+                          // Set the message after a short delay to ensure the form is rendered
+                          setTimeout(() => {
+                            const url = new URL(window.location.href);
+                            url.searchParams.set('message', encodedMessage);
+                            window.history.replaceState({}, '', url.toString());
+                            // Trigger a custom event to update the form
+                            window.dispatchEvent(new CustomEvent('prefillMessage', { 
+                              detail: { message } 
+                            }));
+                          }, 500);
+                        }
+                      }}
                       className="bg-[#fc4f29] text-white text-[20px] px-6 py-3 rounded-[32px] hover:bg-[#e63e1f] transition-colors font-light font-['Zain']"
                     >
                       Request case

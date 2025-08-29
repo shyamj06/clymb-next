@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser'
 import GoogleMap from './GoogleMap'
 
 export default function ContactSection() {
@@ -10,11 +11,70 @@ export default function ContactSection() {
     company: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle pre-filled message from URL parameters and custom events
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const message = urlParams.get('message')
+    if (message) {
+      setFormData(prev => ({ ...prev, message: decodeURIComponent(message) }))
+      // Clear the URL parameter after setting the message
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.hash)
+    }
+
+    // Listen for custom prefill events
+    const handlePrefillMessage = (event: CustomEvent) => {
+      setFormData(prev => ({ ...prev, message: event.detail.message }))
+    }
+
+    window.addEventListener('prefillMessage', handlePrefillMessage as EventListener)
+    
+    return () => {
+      window.removeEventListener('prefillMessage', handlePrefillMessage as EventListener)
+    }
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      // EmailJS configuration
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'your_service_id'
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'your_template_id'
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'your_public_key'
+
+      // Template parameters for EmailJS
+      const templateParams = {
+        to_email: 'shyam.prakash@synclovis.com', // Hidden recipient
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || '',
+        subject: `Contact Form: ${formData.name}${formData.company ? ` (${formData.company})` : ''}`,
+        message: formData.message,
+        reply_to: formData.email
+      }
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      )
+
+      console.log('Email sent successfully:', result)
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', company: '', message: '' })
+    } catch (error) {
+      console.error('Error sending email:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,6 +131,15 @@ export default function ContactSection() {
                   className="w-full h-[50px] lg:h-[60px] bg-[#ffffff] rounded-[20px] px-6 lg:px-8 py-3 lg:py-4 text-[14px] lg:text-[16px] placeholder-[#a9cad5] border-0 focus:outline-none focus:ring-2 focus:ring-[#2fabd8] font-['Zain'] font-light"
                 />
                 
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Your company (optional)"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                  className="w-full h-[50px] lg:h-[60px] bg-[#ffffff] rounded-[20px] px-6 lg:px-8 py-3 lg:py-4 text-[14px] lg:text-[16px] placeholder-[#a9cad5] border-0 focus:outline-none focus:ring-2 focus:ring-[#2fabd8] font-['Zain'] font-light"
+                />
+                
                 <textarea
                   name="message"
                   placeholder="Your message"
@@ -83,11 +152,28 @@ export default function ContactSection() {
               
               <button
                 type="submit"
-                className="w-full bg-[#fc4f29] text-[#ffffff] text-[18px] sm:text-[20px] lg:text-[24px] tracking-[0.36px] lg:tracking-[0.48px] px-6 lg:px-7 py-3 lg:py-4 rounded-[32px] hover:bg-[#e63e1f] transition-colors font-['Zain'] font-light"
-                style={{ cursor: 'pointer' }}
+                disabled={isSubmitting}
+                className={`w-full text-[#ffffff] text-[18px] sm:text-[20px] lg:text-[24px] tracking-[0.36px] lg:tracking-[0.48px] px-6 lg:px-7 py-3 lg:py-4 rounded-[32px] transition-colors font-['Zain'] font-light ${
+                  isSubmitting 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-[#fc4f29] hover:bg-[#e63e1f] cursor-pointer'
+                }`}
               >
-                Get in touch
+                {isSubmitting ? 'Sending...' : 'Get in touch'}
               </button>
+              
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg font-['Zain']">
+                  Thank you! Your message has been sent successfully.
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg font-['Zain']">
+                  Sorry, there was an error sending your message. Please try again.
+                </div>
+              )}
             </form>
           </div>
           

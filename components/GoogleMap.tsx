@@ -42,7 +42,13 @@ export default function GoogleMap({ className, center, zoom, markerTitle }: Goog
 
         // Load Google Maps script
         const script = document.createElement('script')
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB4VXz1gSx6K9PhgQVdvrcZsJxcvZeRDGk`
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        if (!apiKey) {
+          setError('Google Maps API key not configured')
+          setIsLoading(false)
+          return
+        }
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`
         script.async = true
         script.defer = true
         
