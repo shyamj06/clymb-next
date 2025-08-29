@@ -49,7 +49,7 @@ export default function ContactSection() {
 
       // Template parameters for EmailJS
       const templateParams = {
-        to_email: 'shyam.prakash@synclovis.com', // Hidden recipient
+        to_email: 'clymb@icloud.com', // Hidden recipient
         from_name: formData.name,
         from_email: formData.email,
         company: formData.company || '',
