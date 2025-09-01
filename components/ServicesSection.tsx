@@ -1,3 +1,5 @@
+'use client'
+
 export default function ServicesSection() {
   const services = [
     {
@@ -64,6 +66,12 @@ export default function ServicesSection() {
               <button 
                 className="bg-[#fc4f29] text-[#ffffff] text-[24px] tracking-[0.48px] px-7 py-4 rounded-[32px] hover:bg-[#e63e1f] transition-colors font-['Zain'] font-light"
                 style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 Get in touch
               </button>
