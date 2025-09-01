@@ -1,9 +1,90 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import svgPaths from "../imports/svg-clymb-logo";
 
+// Fetch Intro data from Prepr (stored in Home model)
+async function fetchIntroData(): Promise<{ headline: string; cta: string; scroll_cta: string }> {
+  const query = `
+    query {
+      Home {
+        headline
+        cta
+        scroll_cta
+      }
+    }
+  `
+
+  const apiToken = process.env.NEXT_PUBLIC_PREPR_ACCESS_TOKEN
+  if (!apiToken) {
+    throw new Error('NEXT_PUBLIC_PREPR_ACCESS_TOKEN environment variable is not set')
+  }
+
+  try {
+    const res = await fetch(
+      "https://graphql.prepr.io/ac_00ecc388693bf1996a98371fd9c42b35e6103b39be7cf844406872b6c05f1743",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiToken}`,
+        },
+        body: JSON.stringify({ query }),
+      }
+    )
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(`Failed to fetch: ${res.status} - ${errorText}`)
+    }
+
+    const json = await res.json()
+    
+    if (json.errors) {
+      throw new Error(`GraphQL errors: ${JSON.stringify(json.errors)}`)
+    }
+
+    if (!json.data?.Home) {
+      throw new Error('No Home data found in Prepr response')
+    }
+
+    return json.data.Home
+  } catch (error) {
+    console.error('Error fetching Intro data:', error)
+    throw error
+  }
+}
+
 export default function IntroSection() {
+  const [introData, setIntroData] = useState<{
+    headline: string;
+    cta: string;
+    scroll_cta: string;
+  } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch CMS intro data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true)
+        const data = await fetchIntroData()
+        setIntroData(data)
+      } catch (error) {
+        console.error('Failed to load intro data:', error)
+        // Set fallback data only on error
+        setIntroData({
+          headline: 'Clymb is a cutting-edge agency specializing in innovative SaaS solutions. We empower businesses to innovate.',
+          cta: 'See our work',
+          scroll_cta: 'Explore more'
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    loadData()
+  }, [])
   const scrollToNextSection = useCallback(() => {
     const nextSection = document.getElementById('clients')
     if (nextSection) {
@@ -49,7 +130,7 @@ export default function IntroSection() {
           </div>
           
           <p className="text-[#ffffff] text-[18px] sm:text-[20px] lg:text-[24px] leading-[22px] sm:leading-[24px] lg:leading-[25px] tracking-[0.36px] sm:tracking-[0.4px] lg:tracking-[0.48px] max-w-full font-zain font-light px-4 sm:px-0">
-            Clymb is a cutting-edge agency specializing in innovative SaaS solutions. We empower businesses to innovate.
+            {isLoading ? 'Loading...' : introData?.headline || 'Clymb is a cutting-edge agency specializing in innovative SaaS solutions. We empower businesses to innovate.'}
           </p>
           
           <button 
@@ -61,7 +142,7 @@ export default function IntroSection() {
             }}
             className="bg-[#fc4f29] text-[#ffffff] text-[18px] sm:text-[20px] lg:text-[24px] tracking-[0.36px] sm:tracking-[0.4px] lg:tracking-[0.48px] px-6 sm:px-7 py-3 sm:py-4 rounded-[32px] hover:bg-[#e63e1f] transition-colors font-zain font-light"
           >
-            See our work
+            {isLoading ? 'Loading...' : introData?.cta || 'See our works'}
           </button>
         </div>
 
@@ -70,7 +151,9 @@ export default function IntroSection() {
           onClick={scrollToNextSection}
           className="flex flex-col items-center gap-1.5 text-[#ffffff] hover:opacity-80 transition-opacity font-zain font-light mt-4 sm:mt-0"
         >
-          <span className="text-[16px] sm:text-[18px] lg:text-[20px] tracking-[0.32px] sm:tracking-[0.36px] lg:tracking-[0.4px]">Explore more</span>
+          <span className="text-[16px] sm:text-[18px] lg:text-[20px] tracking-[0.32px] sm:tracking-[0.36px] lg:tracking-[0.4px]">
+            {isLoading ? 'Loading...' : introData?.scroll_cta || 'Explore more'}
+          </span>
           <span className="text-[14px] sm:text-[16px]">↓</span>
         </button>
       </div>
