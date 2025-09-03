@@ -1,8 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Instagram, Linkedin, Menu, X } from 'lucide-react';
+import { Instagram, Menu, X } from 'lucide-react';
 import svgPaths from "../imports/svg-y5z4886nhe";
+
+// Custom LinkedIn SVG component
+const LinkedInIcon = ({ className }: { className?: string }) => (
+  <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M19.5 0.5C20.2969 0.5 21 1.20312 21 2.04688V20C21 20.8438 20.2969 21.5 19.5 21.5H1.45312C0.65625 21.5 0 20.8438 0 20V2.04688C0 1.20312 0.65625 0.5 1.45312 0.5H19.5ZM6.32812 18.5V8.51562H3.23438V18.5H6.32812ZM4.78125 7.10938C5.76562 7.10938 6.5625 6.3125 6.5625 5.32812C6.5625 4.34375 5.76562 3.5 4.78125 3.5C3.75 3.5 2.95312 4.34375 2.95312 5.32812C2.95312 6.3125 3.75 7.10938 4.78125 7.10938ZM18 18.5V13.0156C18 10.3438 17.3906 8.23438 14.25 8.23438C12.75 8.23438 11.7188 9.07812 11.2969 9.875H11.25V8.51562H8.29688V18.5H11.3906V13.5781C11.3906 12.2656 11.625 11 13.2656 11C14.8594 11 14.8594 12.5 14.8594 13.625V18.5H18Z" fill="currentColor"/>
+  </svg>
+)
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState('intro');
@@ -97,7 +104,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between px-4 sm:px-8 pt-8 sm:pt-12 pb-4">
           {/* Left spacer for desktop, hidden on mobile */}
           <div className="opacity-0 hidden lg:block">
-            <Linkedin className={`w-6 h-6 ${hasBackground ? 'text-[#0d3543]' : 'text-[#ffffff]'}`} />
+            <LinkedInIcon className={`w-6 h-6 ${hasBackground ? 'text-[#0d3543]' : 'text-[#ffffff]'}`} />
           </div>
           
           {/* Desktop Menu - Hidden on mobile */}
@@ -138,7 +145,7 @@ export default function Navigation() {
                 style={{ cursor: 'pointer' }}
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-5 h-5" />
+                <LinkedInIcon className="w-5 h-5" />
               </button>
             </div>
 
@@ -177,7 +184,7 @@ export default function Navigation() {
               style={{ cursor: 'pointer' }}
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-6 h-6" />
+              <LinkedInIcon className="w-6 h-6" />
             </button>
           </div>
         </div>

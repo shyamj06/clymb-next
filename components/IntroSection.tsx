@@ -154,7 +154,9 @@ export default function IntroSection() {
           <span className="text-[16px] sm:text-[18px] lg:text-[20px] tracking-[0.32px] sm:tracking-[0.36px] lg:tracking-[0.4px]">
             {isLoading ? 'Loading...' : introData?.scroll_cta || 'Explore more'}
           </span>
-          <span className="text-[14px] sm:text-[16px]">↓</span>
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       </div>
     </section>
