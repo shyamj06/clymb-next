@@ -50,9 +50,9 @@ export default function ServicesSection() {
               key={index}
               className="bg-[#ffffff] p-8 rounded-xl shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex flex-col items-center gap-6 text-center hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="w-20 h-20 bg-gradient-to-br from-[#fc4f29] to-[#e63e1f] rounded-full flex items-center justify-center text-[24px]">
-                {service.icon}
-              </div>
+              <div className="w-20 h-20 bg-gradient-to-br from-[#6F9CE6] to-[#2FABD8] rounded-full flex items-center justify-center text-[24px]">
+                  {service.icon}
+                </div>
               
               <div className="flex flex-col gap-2">
                 <h3 className="text-[#0d3543] text-[24px] tracking-[0.48px] font-['Zain'] font-medium">
