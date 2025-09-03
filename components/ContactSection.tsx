@@ -8,7 +8,7 @@ export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    //company: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -52,8 +52,9 @@ export default function ContactSection() {
         to_email: 'clymb@icloud.com', // Hidden recipient
         from_name: formData.name,
         from_email: formData.email,
-        company: formData.company || '',
-        subject: `Contact Form: ${formData.name}${formData.company ? ` (${formData.company})` : ''}`,
+        //company: formData.company || '',
+        subject: `Contact Form: ${formData.name}`,
+        //subject: `Contact Form: ${formData.name}${formData.company ? ` (${formData.company})` : ''}`,
         message: formData.message,
         reply_to: formData.email
       }
@@ -68,7 +69,7 @@ export default function ContactSection() {
 
       console.log('Email sent successfully:', result)
       setSubmitStatus('success')
-      setFormData({ name: '', email: '', company: '', message: '' })
+      setFormData({ name: '', email: '', message: '' })
     } catch (error) {
       console.error('Error sending email:', error)
       setSubmitStatus('error')
@@ -131,14 +132,14 @@ export default function ContactSection() {
                   className="w-full h-[50px] lg:h-[60px] bg-[#ffffff] rounded-[20px] px-6 lg:px-8 py-3 lg:py-4 text-[14px] lg:text-[16px] placeholder-[#a9cad5] border-0 focus:outline-none focus:ring-2 focus:ring-[#2fabd8] font-['Zain'] font-light"
                 />
                 
-                <input
+                {/* <input
                   type="text"
                   name="company"
                   placeholder="Your company (optional)"
                   value={formData.company}
                   onChange={handleInputChange}
                   className="w-full h-[50px] lg:h-[60px] bg-[#ffffff] rounded-[20px] px-6 lg:px-8 py-3 lg:py-4 text-[14px] lg:text-[16px] placeholder-[#a9cad5] border-0 focus:outline-none focus:ring-2 focus:ring-[#2fabd8] font-['Zain'] font-light"
-                />
+                /> */}
                 
                 <textarea
                   name="message"
