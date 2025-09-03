@@ -29,7 +29,7 @@ export default function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="bg-gradient-to-br from-[#f0f8ff] to-[#e3f2f8] py-40">
+    <section id="services" className="py-40" style={{ background: 'var(--Background-Gradient, linear-gradient(249deg, #CEF1FC 17.43%, #E3F2F8 52.1%, #C5F0FF 86.76%))' }}>
     <div className="container mx-auto px-8">
       <div className="flex flex-col items-center gap-12">
         <h2 
