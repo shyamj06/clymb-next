@@ -27,7 +27,7 @@ export default function ClientsSection() {
           </h2>
           
           <div className="w-full max-w-6xl">
-            <div className="grid grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-8">
               {logos.map((logo, index) => (
                 <div
                   key={index}

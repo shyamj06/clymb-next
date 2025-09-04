@@ -5,25 +5,25 @@ export default function ServicesSection() {
     {
       title: 'Headless CMS',
       description: 'Comprehensive digital transformation strategies that align with your business goals.',
-      icon: '🎯',
+      iconClass: 'fa-solid fa-bullseye',
       features: ['Market Analysis', 'Competitive Research', 'Growth Planning']
     },
     {
       title: 'Web Development',
       description: 'Modern, responsive websites and web applications built with cutting-edge technologies.',
-      icon: '💻',
+      iconClass: 'fa-solid fa-laptop-code',
       features: ['React/Next.js', 'Responsive Design', 'Performance Optimization']
     },
     {
       title: 'Mobile Apps',
       description: 'Native and cross-platform mobile applications that engage your users.',
-      icon: '📱',
+      iconClass: 'fa-solid fa-mobile-screen-button',
       features: ['iOS & Android', 'Cross-platform', 'App Store Optimization']
     },
     {
       title: 'Cloud Solutions',
       description: 'Scalable cloud infrastructure and DevOps solutions for modern businesses.',
-      icon: '☁️',
+      iconClass: 'fa-solid fa-cloud',
       features: ['AWS/Azure/GCP', 'CI/CD Pipelines', 'Monitoring & Security']
     },
   ]
@@ -50,9 +50,9 @@ export default function ServicesSection() {
               key={index}
               className="bg-[#ffffff] p-8 rounded-xl shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex flex-col items-center gap-6 text-center hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="w-20 h-20 bg-gradient-to-br from-[#6F9CE6] to-[#2FABD8] rounded-full flex items-center justify-center text-[24px]">
-                  {service.icon}
-                </div>
+              <div className="w-20 h-20 bg-gradient-to-br from-[#6F9CE6] to-[#2FABD8] rounded-full flex items-center justify-center">
+                <i className={`${service.iconClass} text-white text-[28px]`}></i>
+              </div>
               
               <div className="flex flex-col gap-2">
                 <h3 className="text-[#0d3543] text-[24px] tracking-[0.48px] font-['Zain'] font-medium">

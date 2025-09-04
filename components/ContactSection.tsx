@@ -228,7 +228,7 @@ export default function ContactSection() {
     </div>
     
     {/* Copyright below map on mobile */}
-    <div className="lg:hidden bg-[#ffffff] px-4 py-6 text-center">
+    <div className="lg:hidden bg-[#E3F2F8] px-4 py-6 text-left">
       <div className="text-[#2fabd8] text-[18px] sm:text-[20px] tracking-[0.36px] leading-[22px] font-['Zain'] font-light">
         © Clymb 2025
       </div>
