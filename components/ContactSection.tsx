@@ -90,7 +90,7 @@ export default function ContactSection() {
     <section id="contact" className="relative bg-[#ffffff] w-full">
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Form section */}
-      <div className="relative bg-[#e3f2f8] w-full lg:flex-1 lg:max-w-[560px] px-4 sm:px-8 lg:px-16 py-8 lg:py-16 flex flex-col justify-between min-h-[80vh] lg:min-h-screen">
+      <div className="relative bg-[#e3f2f8] w-full lg:flex-1 lg:max-w-[560px] px-16 sm:px-16 lg:px-16 py-8 lg:py-16 flex flex-col justify-between min-h-[80vh] lg:min-h-screen">
         <div className="space-y-8 lg:space-y-16">
           <div className="space-y-6 lg:space-y-8">
             <h2 
@@ -211,13 +211,13 @@ export default function ContactSection() {
       {/* Map section */}
       {useGoogleMaps ? (
         <GoogleMap
-          className="w-full lg:flex-1 h-[400px] sm:h-[500px] lg:h-auto lg:min-h-full"
+          className="w-full lg:flex-1 h-[100svh] lg:h-auto lg:min-h-full"
           center={{ lat: 52.39267934458147, lng: 4.911611576570298 }}
           zoom={15}
           markerTitle="Clymb Office Location"
         />
       ) : (
-        <div className="w-full lg:flex-1 h-[400px] sm:h-[500px] lg:h-auto lg:min-h-full bg-gray-200 flex items-center justify-center">
+        <div className="w-full lg:flex-1 h-[100svh] lg:h-auto lg:min-h-full bg-gray-200 flex items-center justify-center">
           <div className="text-center">
             <div className="text-4xl mb-4">🗺️</div>
             <p className="text-gray-600 font-zain">Google Maps Integration</p>
@@ -228,7 +228,7 @@ export default function ContactSection() {
     </div>
     
     {/* Copyright below map on mobile */}
-    <div className="lg:hidden bg-[#E3F2F8] px-4 py-6 text-left">
+    <div className="lg:hidden bg-[#E3F2F8] px-16 py-6 text-left">
       <div className="text-[#2fabd8] text-[18px] sm:text-[20px] tracking-[0.36px] leading-[22px] font-['Zain'] font-light">
         © Clymb 2025
       </div>
